@@ -26,7 +26,7 @@ else
 fi
 
 # if we install on m1 or m2 macbook then we should install BARE
-if [ -n "$OMARCHY_ARM"]; then
+if [ -n "$OMARCHY_ARM" ]; then
   export OMARCHY_BARE=true
 fi
 
