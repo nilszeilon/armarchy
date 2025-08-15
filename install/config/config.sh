@@ -15,6 +15,10 @@ if [ -n "$OMARCHY_BARE" ]; then
   touch ~/.local/state/omarchy/bare.mode
 fi
 
+if [ -n "$OMARCHY_ARM" ]; then
+  echo "env = VK_ICD_FILENAMES,/usr/share/vulkan/icd.d/lvp_icd.aarch64.json" >> ~/.config/hypr/envs.conf
+fi 
+
 # Setup GPG configuration with multiple keyservers for better reliability
 sudo mkdir -p /etc/gnupg
 sudo cp ~/.local/share/omarchy/default/gpg/dirmngr.conf /etc/gnupg/
