@@ -63,6 +63,7 @@ source $OMARCHY_INSTALL/desktop/hyprlandia.sh
 source $OMARCHY_INSTALL/desktop/theme.sh
 source $OMARCHY_INSTALL/desktop/bluetooth.sh
 source $OMARCHY_INSTALL/desktop/asdcontrol.sh
+source $OMARCHY_INSTALL/desktop/audio.sh
 source $OMARCHY_INSTALL/desktop/fonts.sh
 source $OMARCHY_INSTALL/desktop/printer.sh
 
