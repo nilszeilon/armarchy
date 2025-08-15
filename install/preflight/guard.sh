@@ -25,6 +25,11 @@ else
   [[ "$arch" != "aarch64" && "$arch" != "arm64" ]] && abort "ARM CPU"
 fi
 
+# if we install on m1 or m2 macbook then we should install BARE
+if [ -n "$OMARCHY_ARM"]; then
+  export OMARCHY_BARE=true
+fi
+
 # Must not have Gnome or KDE already install
 pacman -Qe gnome-shell &>/dev/null && abort "Fresh + Vanilla Arch"
 pacman -Qe plasma-desktop &>/dev/null && abort "Fresh + Vanilla Arch"
