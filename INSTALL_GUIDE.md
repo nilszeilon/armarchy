@@ -75,6 +75,9 @@ wget -qO- https://githubusercontent.com/nilszeion/armarchy/refs/heads/master/boo
 
 This step will take some time.
 
+If you run into problems where the AUR is slow, try to enable mirror repositories by editing  `sudo vim /etc/pacman.d/mirrorlist` and uncomment a couple of lines starting with `# Server = ...`.
+
+**If the installation crashes** just run the suggested command but with the `OMARCHY_ARM` flag set like this `OMARCHY_ARM=true bash ~/.local/share/omarchy/install.sh` until it finishes.
 
 
 # Uninstall
