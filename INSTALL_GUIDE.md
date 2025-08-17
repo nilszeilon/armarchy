@@ -74,13 +74,7 @@ now lets install omarchy, run the command
 
 
 ```
-wget -qO- https://raw.githubusercontent.com/nilszeilon/armarchy/refs/heads/master/boot.sh | OMARCHY_ARM=true bash
-```
-
-if nothing happens, check that you typed in the correct url before piping to bash with
-
-```
-wget -qO- https://raw.githubusercontent.com/nilszeilon/armarchy/refs/heads/master/boot.sh
+wget -qO- https://omarchy.org/install
 ```
 
 This step will take some time.
