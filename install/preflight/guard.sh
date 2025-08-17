@@ -17,17 +17,20 @@ done
 # Must not be runnig as root
 [ "$EUID" -eq 0 ] && abort "Running as user (not root)"
 
-# Must be x86 only to fully work, or ARM if OMARCHY_ARM is set
+# Auto-detect ARM architecture and set flags
+arch=$(uname -m)
+if [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
+  export OMARCHY_ARM=true
+  export OMARCHY_BARE=true
+  echo "Auto-detected ARM architecture: $arch"
+  echo "Setting OMARCHY_ARM=true and OMARCHY_BARE=true"
+fi
+
+# Must be x86 or ARM architecture
 if [ -z "$OMARCHY_ARM" ]; then
   [ "$(uname -m)" != "x86_64" ] && abort "x86_64 CPU"
 else
-  arch=$(uname -m)
   [[ "$arch" != "aarch64" && "$arch" != "arm64" ]] && abort "ARM CPU"
-fi
-
-# if we install on m1 or m2 macbook then we should install BARE
-if [ -n "$OMARCHY_ARM" ]; then
-  export OMARCHY_BARE=true
 fi
 
 # Must not have Gnome or KDE already install
