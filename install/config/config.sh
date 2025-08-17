@@ -15,9 +15,15 @@ if [ -n "$OMARCHY_BARE" ]; then
   touch ~/.local/state/omarchy/bare.mode
 fi
 
+# If arm arch, allow a way for its exclusions to not get added in updates & configs
 if [ -n "$OMARCHY_ARM" ]; then
-  echo "env = VK_ICD_FILENAMES,/usr/share/vulkan/icd.d/lvp_icd.aarch64.json" >> ~/.config/hypr/envs.conf
-fi 
+  mkdir -p ~/.local/state/omarchy
+  touch ~/.local/state/omarchy/arm.mode
+fi
+
+if [ -n "$OMARCHY_ARM" ]; then
+  echo "env = VK_ICD_FILENAMES,/usr/share/vulkan/icd.d/lvp_icd.aarch64.json" >>~/.config/hypr/envs.conf
+fi
 
 # Setup GPG configuration with multiple keyservers for better reliability
 sudo mkdir -p /etc/gnupg
