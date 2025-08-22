@@ -26,13 +26,6 @@ if [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
   echo "Setting OMARCHY_ARM=true and OMARCHY_BARE=true"
 fi
 
-# Must be x86 or ARM architecture
-if [ -z "$OMARCHY_ARM" ]; then
-  [ "$(uname -m)" != "x86_64" ] && abort "x86_64 CPU"
-else
-  [[ "$arch" != "aarch64" && "$arch" != "arm64" ]] && abort "ARM CPU"
-fi
-
 # Must not have Gnome or KDE already install
 pacman -Qe gnome-shell &>/dev/null && abort "Fresh + Vanilla Arch"
 pacman -Qe plasma-desktop &>/dev/null && abort "Fresh + Vanilla Arch"
