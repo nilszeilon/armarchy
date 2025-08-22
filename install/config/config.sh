@@ -19,9 +19,6 @@ fi
 if [ -n "$OMARCHY_ARM" ]; then
   mkdir -p ~/.local/state/omarchy
   touch ~/.local/state/omarchy/arm.mode
-fi
-
-if [ -n "$OMARCHY_ARM" ]; then
   echo "env = VK_ICD_FILENAMES,/usr/share/vulkan/icd.d/lvp_icd.aarch64.json" >>~/.config/hypr/envs.conf
 fi
 
