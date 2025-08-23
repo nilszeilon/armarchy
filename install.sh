@@ -56,6 +56,7 @@ source $OMARCHY_INSTALL/log/before-install.sh
 source $OMARCHY_INSTALL/preflight/chroot.sh
 source $OMARCHY_INSTALL/preflight/mirrorlist.sh
 source $OMARCHY_INSTALL/preflight/gum.sh
+source $OMARCHY_INSTALL/preflight/arm.sh
 
 # Check if we're on Asahi Linux and need initial setup
 if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then

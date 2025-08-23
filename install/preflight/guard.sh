@@ -17,15 +17,6 @@ done
 # Must not be running as root
 [ "$EUID" -eq 0 ] && abort "Running as user (not root)"
 
-# Auto-detect ARM architecture and set flags
-arch=$(uname -m)
-if [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-  export OMARCHY_ARM=true
-  export OMARCHY_BARE=true
-  echo "Auto-detected ARM architecture: $arch"
-  echo "Setting OMARCHY_ARM=true and OMARCHY_BARE=true"
-fi
-
 # Must not have Gnome or KDE already install
 pacman -Qe gnome-shell &>/dev/null && abort "Fresh + Vanilla Arch"
 pacman -Qe plasma-desktop &>/dev/null && abort "Fresh + Vanilla Arch"
