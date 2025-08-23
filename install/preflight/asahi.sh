@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Prerequisites for installing Omarchy on a m-series macbook
+#
+# 1. Follow these instructions: https://asahi-alarm.org/
+# 2. choose the minimal installation.
+# 3. Set up wifi and install wget
+# 4. Run the omarchy install command
+
 # Asahi Linux ARM setup script for Omarchy
 # This script automates the post-Asahi installation steps for MacBook M-series
 
