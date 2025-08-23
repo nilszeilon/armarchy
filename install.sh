@@ -56,6 +56,20 @@ source $OMARCHY_INSTALL/log/before-install.sh
 source $OMARCHY_INSTALL/preflight/chroot.sh
 source $OMARCHY_INSTALL/preflight/mirrorlist.sh
 source $OMARCHY_INSTALL/preflight/gum.sh
+
+# Check if we're on Asahi Linux and need initial setup
+if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then
+  # Check for Asahi indicators
+  if grep -qi "asahi" /etc/os-release 2>/dev/null ||
+    uname -r | grep -qi "asahi" ||
+    pacman -Q linux-asahi &>/dev/null ||
+    pacman -Q asahi-scripts &>/dev/null; then
+    echo "Detected Asahi Linux - running initial setup..."
+    # using exec instead of source to continue the installation after switching user
+    exec $OMARCHY_INSTALL/preflight/asahi.sh
+  fi
+fi
+
 source $OMARCHY_INSTALL/preflight/guard.sh
 source $OMARCHY_INSTALL/preflight/aur.sh
 source $OMARCHY_INSTALL/preflight/tte.sh
