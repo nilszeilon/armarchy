@@ -84,18 +84,28 @@ if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then
       echo "Added wheel group to sudoers"
     fi
 
-    # Switch to the created/selected user
-    # Requires complete rerun since we change user
-    #
-    # The new user needs to download Omarchy in their own home directory
-    echo "Switching to user $username to continue installation..."
-    echo "The user will need to download and run Omarchy installer..."
-
-    # Create a command that will download and run Omarchy as the new user
-    INSTALL_CMD='wget -qO- https://raw.githubusercontent.com/nilszeilon/armarchy/refs/master/boot.sh | bash'
-
-    echo "Running Omarchy installer as $username..."
-    exec su - "$username" -c "$INSTALL_CMD"
+    # User setup complete - provide instructions for continuing
+    echo
+    echo "=================================="
+    echo "Initial setup complete!"
+    echo "=================================="
+    echo
+    echo "Please follow these steps to continue:"
+    echo
+    echo "1. Exit this root session (type 'exit' or press Ctrl+D)"
+    echo "2. Log in as user: $username"
+    echo "3. Run the following command to continue installation:"
+    echo
+    echo "   wget -qO- https://omarchy.org/install | bash"
+    echo
+    echo "Or for testing with the GitHub repo:"
+    echo "   wget -qO- https://raw.githubusercontent.com/nilszeilon/armarchy/master/boot.sh | bash"
+    echo
+    echo "=================================="
+    echo
+    
+    # Exit the script here so it doesn't continue with the rest of install.sh
+    exit 0
 
   fi
 fi
