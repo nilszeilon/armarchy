@@ -2,23 +2,23 @@
 
 # Prerequisites for installing Omarchy on a m-series macbook
 #
-# 1. Follow these instructions: https://asahi-alarm.org/
-# 2. choose the minimal installation.
-# 3. Set up wifi and install wget
-# 4. Run the omarchy install command
+# 1. Follow these instructions: https://asahi-alarm.org/ and choose the minimal installation (1)
+# 2. Set up wifi and install wget
+# 3. Run the omarchy install command
 
 # Asahi Linux ARM setup script for Omarchy
 # This script automates the post-Asahi installation steps for MacBook M-series
 
 # Check if we're on Asahi Linux and need initial setup
 if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then
+
   # Check for Asahi indicators
   if grep -qi "asahi" /etc/os-release 2>/dev/null ||
     uname -r | grep -qi "asahi" ||
     pacman -Q linux-asahi &>/dev/null ||
     pacman -Q asahi-scripts &>/dev/null; then
+
     echo "Detected Asahi Linux - running initial setup..."
-    # using exec instead of source to continue the installation after switching user
 
     set -e
 
@@ -84,7 +84,7 @@ if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then
       echo "Added wheel group to sudoers"
     fi
 
-    # User setup complete - provide instructions for continuing
+    # User setup complete - provide instructions to continue the Omarchy installation
     echo
     echo "=================================="
     echo "Initial setup complete!"
@@ -92,18 +92,17 @@ if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then
     echo
     echo "Please follow these steps to continue:"
     echo
-    echo "1. Exit this root session (type 'exit' or press Ctrl+D)"
-    echo "2. Log in as user: $username"
-    echo "3. Run the following command to continue installation:"
+    echo "1. Log in as user: $username"
+    echo
+    echo "   su - $username"
+    echo
+    echo "2. Run the following command to continue installation:"
     echo
     echo "   wget -qO- https://omarchy.org/install | bash"
     echo
-    echo "Or for testing with the GitHub repo:"
-    echo "   wget -qO- https://raw.githubusercontent.com/nilszeilon/armarchy/master/boot.sh | bash"
-    echo
     echo "=================================="
     echo
-    
+
     # Exit the script here so it doesn't continue with the rest of install.sh
     exit 0
 
