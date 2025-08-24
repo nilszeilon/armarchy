@@ -19,7 +19,7 @@ if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then
     pacman -Q asahi-scripts &>/dev/null; then
     echo "Detected Asahi Linux - running initial setup..."
     # using exec instead of source to continue the installation after switching user
-    exec bash $OMARCHY_INSTALL/preflight/asahi.sh
+    exec env OMARCHY_INSTALL="$OMARCHY_INSTALL" bash $OMARCHY_INSTALL/preflight/asahi.sh
 
     set -e
 
