@@ -87,8 +87,14 @@ if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then
     # Switch to the created/selected user
     # Requires complete rerun since we change user
     #
-    #
-    exec su - "$username" -c "$OMARCHY_INSTALL/../install.sh"
+    # Pass the full path directly since environment variables won't be preserved
+    # This script is at /path/to/omarchy/install/preflight/asahi.sh
+    # We need /path/to/omarchy/install.sh
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    INSTALL_PATH="$(cd "$SCRIPT_DIR/../.." && pwd)/install.sh"
+    echo "Switching to user $username to continue installation..."
+    echo "Running: $INSTALL_PATH"
+    exec su - "$username" -c "bash '$INSTALL_PATH'"
 
   fi
 fi
