@@ -22,6 +22,9 @@ if [ -n "$OMARCHY_ARM" ]; then
 
   # make use of the right shaders for walker to work correctly
   echo "env = VK_ICD_FILENAMES,/usr/share/vulkan/icd.d/lvp_icd.aarch64.json" >>~/.config/hypr/envs.conf
+
+  # ARM/aarch64 architecture
+  ln -sf ~/.local/share/omarchy/default/hypr/aarch64_apps.conf ~/.local/share/omarchy/default/hypr/apps.conf
 fi
 
 # Setup GPG configuration with multiple keyservers for better reliability
