@@ -12,6 +12,8 @@
 # Check if we're on Asahi Linux and need initial setup
 if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then
 
+  yay -S --needed --noconfirm gum
+
   # Check for Asahi indicators
   if grep -qi "asahi" /etc/os-release 2>/dev/null ||
     uname -r | grep -qi "asahi" ||
