@@ -90,10 +90,10 @@ if [ "$EUID" -eq 0 ] && [ "$(uname -m)" = "aarch64" ]; then
     # The new user needs to download Omarchy in their own home directory
     echo "Switching to user $username to continue installation..."
     echo "The user will need to download and run Omarchy installer..."
-    
+
     # Create a command that will download and run Omarchy as the new user
-    INSTALL_CMD='wget -qO- https://omarchy.org/install | bash'
-    
+    INSTALL_CMD='wget -qO- https://raw.githubusercontent.com/nilszeilon/armarchy/refs/master/boot.sh | bash'
+
     echo "Running Omarchy installer as $username..."
     exec su - "$username" -c "$INSTALL_CMD"
 
