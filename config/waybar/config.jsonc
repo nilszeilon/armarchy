@@ -5,7 +5,7 @@
   "spacing": 0,
   "height": 26,
   "modules-left": ["custom/omarchy", "hyprland/workspaces"],
-  "modules-center": ["group/status-cluster", "clock", "custom/update"],
+  "modules-center": ["clock", "custom/update"],
   "modules-right": [
     "group/tray-expander",
     "bluetooth",
@@ -118,32 +118,6 @@
       "children-class": "tray-group-item"
     },
     "modules": ["custom/expand-icon", "tray"]
-  },
-  "group/status-cluster": {
-    "orientation": "inherit",
-    "modules": [
-      "custom/status-dnd",
-      "custom/status-nightlight",
-      "custom/status-idle"
-    ]
-  },
-  "custom/status-dnd": {
-    "exec": "omarchy-status-daemon dnd",
-    "return-type": "json",
-    "interval": 1,
-    "on-click": "makoctl mode -t do-not-disturb"
-  },
-  "custom/status-nightlight": {
-    "exec": "omarchy-status-daemon nightlight",
-    "return-type": "json",
-    "interval": 1,
-    "on-click": "omarchy-toggle-nightlight"
-  },
-  "custom/status-idle": {
-    "exec": "omarchy-status-daemon idle",
-    "return-type": "json",
-    "interval": 1,
-    "on-click": "omarchy-toggle-idle"
   },
   "custom/expand-icon": {
     "format": " ",
