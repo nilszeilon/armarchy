@@ -1,21 +1,23 @@
 echo "Migrate AUR packages to official repos where possible"
 
-if command -v obsidian >/dev/null; then
-  sudo pacman -Rns --noconfirm obsidian-bin
-  sudo pacman -S --noconfirm obsidian
+reinstall_package_opr() {
+  if pacman -Q $1 >/dev/null; then
+    sudo pacman -Rns --noconfirm $1
+    sudo pacman -S --noconfirm ${2:-$1}
+  fi
+}
+
+if pacman -Q yay-bin-debug >/dev/null; then
+  sudo pacman -Rns --noconfirm yay-bin-debug
 fi
 
-if command -v localsend >/dev/null; then
-  sudo pacman -Rns --noconfirm localsend-bin
-  sudo pacman -S --noconfirm localsend
-fi
-
-if pacman -Q omarchy-chromium-bin >/dev/null; then
-  sudo pacman -Rns --noconfirm omarchy-chromium-bin
-  sudo pacman -S --noconfirm omarchy-chromium
-fi
-
-if pacman -Q walker-bin >/dev/null; then
-  sudo pacman -Rns --noconfirm walker-bin
-  sudo pacman -S --noconfirm walker-bin
-fi
+reinstall_package_opr yay-bin yay
+reinstall_package_opr obsidian-bin obsidian
+reinstall_package_opr localsend-bin localsend
+reinstall_package_opr omarchy-chromium-bin omarchy-chromium
+reinstall_package_opr walker-bin
+reinstall_package_opr wl-screenrec
+reinstall_package_opr python-terminaltexteffects
+reinstall_package_opr tzupdate
+reinstall_package_opr typora
+reinstall_package_opr ttf-ia-writer

@@ -15,7 +15,7 @@ for marker in /etc/cachyos-release /etc/eos-release /etc/garuda-release /etc/man
 done
 
 # Must not be running as root
-[ "$EUID" -eq 0 ] && abort "Running as user (not root)"
+[ "$EUID" -eq 0 ] && abort "Running as root (not user)"
 
 # Must not have Gnome or KDE already install
 pacman -Qe gnome-shell &>/dev/null && abort "Fresh + Vanilla Arch"
