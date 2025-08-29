@@ -20,6 +20,7 @@ else
 fi
 
 $PKG_MANAGER -S --noconfirm --needed \
+  pipewire-jack \ # install first to get around conflict
   alacritty \
   avahi \
   bash-completion \
@@ -89,7 +90,6 @@ $PKG_MANAGER -S --noconfirm --needed \
   nvim \
   pamixer \
   pipewire-alsa \
-  pipewire-jack \
   pipewire-pulse \
   playerctl \
   plocate \
