@@ -74,7 +74,6 @@ $PKG_MANAGER -S --noconfirm --needed \
   libqalculate \
   libreoffice \
   llvm \
-  localsend \
   luarocks \
   mako \
   man \
@@ -128,13 +127,13 @@ $PKG_MANAGER -S --noconfirm --needed \
   xdg-desktop-portal-hyprland \
   xmlstarlet \
   xournalpp \
-  yaru-icon-theme \
   zoxide
 
 if [ -z "$OMARCHY_ARM" ]; then
   $PKG_MANAGER -S --noconfirm --needed \
   1password-beta \
   1password-cli \
+  localsend \
   obs-studio \
   obsidian \
   omarchy-chromium \
@@ -148,4 +147,5 @@ if [ -z "$OMARCHY_ARM" ]; then
   tzupdate \
   walker-bin \
   wl-screenrec \
+  yaru-icon-theme \
 fi
