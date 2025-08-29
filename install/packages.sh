@@ -87,6 +87,7 @@ $PKG_MANAGER -Syy --noconfirm --needed \
   noto-fonts-extra \
   nss-mdns \
   nvim \
+  omarchy-chromium-bin \
   pamixer \
   pipewire-alsa \
   pipewire-pulse \
@@ -137,20 +138,14 @@ if [ -z "$OMARCHY_ARM" ]; then
     localsend \
     obs-studio \
     obsidian \
-    omarchy-chromium \
     pinta \
-    ufw-docker \
     signal-desktop \
     spotify \
     ttf-ia-writer \
     typora \
     tzupdate \
+    ufw-docker \
     walker-bin \
     wl-screenrec \
     yaru-icon-theme
-fi
-
-if [ -n "$OMARCHY_ARM" ]; then
-  $PKG_MANAGER -S --noconfirm --needed \
-    chromium
 fi
