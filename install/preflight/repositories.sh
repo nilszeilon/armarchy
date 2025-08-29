@@ -9,20 +9,21 @@ if ! grep -q "ILoveCandy" /etc/pacman.conf; then
 fi
 
 # Add the Omarchy repository
-if ! grep -q "omarchy" /etc/pacman.conf; then
-  sudo tee -a /etc/pacman.conf >/dev/null <<'EOF'
-
-[omarchy]
-SigLevel = Optional TrustAll
-Server = https://pkgs.omarchy.org/$arch/
-EOF
-fi
+# if ! grep -q "omarchy" /etc/pacman.conf; then
+#   sudo tee -a /etc/pacman.conf >/dev/null <<'EOF'
+#
+# [omarchy]
+# SigLevel = Optional TrustAll
+# Server = https://pkgs.omarchy.org/$arch/
+# EOF
+# fi
 
 # Set mirrors to global ones only
 sudo tee /etc/pacman.d/mirrorlist >/dev/null <<'EOF'
 Server = https://mirror.omarchy.org/$repo/os/$arch
 Server = https://mirror.rackspace.com/archlinux/$repo/os/$arch
 Server = https://geo.mirror.pkgbuild.com/$repo/os/$arch
+Server = https://archlinuxarm.org/$arch/$repo
 EOF
 
 # Refresh all repos
