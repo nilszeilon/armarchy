@@ -133,6 +133,7 @@ $PKG_MANAGER -Syy --noconfirm --needed \
 
 if [ -z "$OMARCHY_ARM" ]; then
   $PKG_MANAGER -S --noconfirm --needed \
+    asahi-alarm/widevine \
     1password-beta \
     1password-cli \
     localsend \
