@@ -147,5 +147,5 @@ if [ -z "$OMARCHY_ARM" ]; then
   tzupdate \
   walker-bin \
   wl-screenrec \
-  yaru-icon-theme \
+  yaru-icon-theme
 fi
