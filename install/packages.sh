@@ -20,7 +20,7 @@ else
 fi
 
 $PKG_MANAGER -S --noconfirm --needed \
-  pipewire-jack \ # install first to get around conflict
+  pipewire-jack \
   alacritty \
   avahi \
   bash-completion \
