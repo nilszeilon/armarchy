@@ -153,5 +153,6 @@ fi
 
 if [ -n "$OMARCHY_ARM" ]; then
   $PKG_MANAGER -S --noconfirm --needed \
-    asahi-alarm/widevine
+    asahi-alarm/widevine \
+    obsidian-appimage
 fi
