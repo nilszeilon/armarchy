@@ -113,7 +113,7 @@ $PKG_MANAGER -Syy --noconfirm --needed \
   ufw \
   unzip \
   uwsm \
-  walker \
+  walker-bin \
   waybar \
   wf-recorder \
   whois \
