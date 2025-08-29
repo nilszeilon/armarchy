@@ -128,29 +128,29 @@ $PKG_MANAGER -S --noconfirm --needed \
   xmlstarlet \
   xournalpp \
   zoxide \
-  python-terminaltexteffects
+  python-terminaltexteffects-git
 
 if [ -z "$OMARCHY_ARM" ]; then
   $PKG_MANAGER -S --noconfirm --needed \
-  1password-beta \
-  1password-cli \
-  localsend \
-  obs-studio \
-  obsidian \
-  omarchy-chromium \
-  pinta \
-  ufw-docker \
-  signal-desktop \
-  spotify \
-  ttf-ia-writer \
-  typora \
-  tzupdate \
-  walker-bin \
-  wl-screenrec \
-  yaru-icon-theme
+    1password-beta \
+    1password-cli \
+    localsend \
+    obs-studio \
+    obsidian \
+    omarchy-chromium \
+    pinta \
+    ufw-docker \
+    signal-desktop \
+    spotify \
+    ttf-ia-writer \
+    typora \
+    tzupdate \
+    walker-bin \
+    wl-screenrec \
+    yaru-icon-theme
 fi
 
 if [ -n "$OMARCHY_ARM" ]; then
   $PKG_MANAGER -S --noconfirm --needed \
-  chromium
+    chromium
 fi
