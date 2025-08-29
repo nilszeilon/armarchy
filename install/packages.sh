@@ -20,8 +20,6 @@ else
 fi
 
 $PKG_MANAGER -S --noconfirm --needed \
-  1password-beta \
-  1password-cli \
   alacritty \
   avahi \
   bash-completion \
@@ -89,11 +87,7 @@ $PKG_MANAGER -S --noconfirm --needed \
   noto-fonts-extra \
   nss-mdns \
   nvim \
-  obs-studio \
-  obsidian \
-  omarchy-chromium \
   pamixer \
-  pinta \
   pipewire-alsa \
   pipewire-jack \
   pipewire-pulse \
@@ -105,12 +99,9 @@ $PKG_MANAGER -S --noconfirm --needed \
   power-profiles-daemon \
   python-gobject \
   python-poetry-core \
-  python-terminaltexteffects \
   ripgrep \
   satty \
-  signal-desktop \
   slurp \
-  spotify \
   starship \
   sushi \
   swaybg \
@@ -119,10 +110,7 @@ $PKG_MANAGER -S --noconfirm --needed \
   tldr \
   tree-sitter-cli \
   ttf-cascadia-mono-nerd \
-  ttf-ia-writer \
   ttf-jetbrains-mono \
-  typora \
-  tzupdate \
   ufw \
   ufw-docker \
   unzip \
@@ -144,3 +132,19 @@ $PKG_MANAGER -S --noconfirm --needed \
   yaru-icon-theme \
   yay \
   zoxide
+
+if [ -z "$OMARCHY_ARM" ]; then
+  $PKG_MANAGER -S --noconfirm --needed \
+  1password-beta \
+  1password-cli \
+  obs-studio \
+  obsidian \
+  omarchy-chromium \
+  pinta \
+  python-terminaltexteffects \
+  signal-desktop \
+  spotify \
+  ttf-ia-writer \
+  typora \
+  tzupdate \
+fi
