@@ -150,3 +150,8 @@ if [ -z "$OMARCHY_ARM" ]; then
     wl-screenrec \
     yaru-icon-theme
 fi
+
+if [ -n "$OMARCHY_ARM" ]; then
+  $PKG_MANAGER -S --noconfirm --needed \
+    asahi-alarm/widevine
+fi
