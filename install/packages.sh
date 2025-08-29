@@ -1,4 +1,25 @@
-sudo pacman -S --noconfirm --needed \
+# Manually install yay from AUR if not already available
+if ! command -v yay &>/dev/null; then
+  # Install build tools
+  sudo pacman -Sy --needed --noconfirm base-devel
+  cd /tmp
+  rm -rf yay-bin
+  git clone https://aur.archlinux.org/yay-bin.git
+  cd yay-bin
+  makepkg -si --noconfirm
+  cd -
+  rm -rf yay-bin
+  cd ~
+fi
+
+# Set package manager based on architecture
+if [ -n "$OMARCHY_ARM" ]; then
+  PKG_MANAGER="yay"
+else
+  PKG_MANAGER="sudo pacman"
+fi
+
+$PKG_MANAGER -S --noconfirm --needed \
   1password-beta \
   1password-cli \
   alacritty \
