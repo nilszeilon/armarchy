@@ -150,7 +150,7 @@ show_setup_menu() {
   *Power*) show_setup_power_menu ;;
   *Monitors*) edit_in_nvim ~/.config/hypr/monitors.conf ;;
   *Keybindings*) edit_in_nvim ~/.config/hypr/bindings.conf ;;
-  *Input*) edit_in_nvim ~/.config/hypr/input.conf ;;
+  *Input*) show_setup_input_menu ;;
   *DNS*) present_terminal omarchy-setup-dns ;;
   *Config*) show_setup_config_menu ;;
   *Fingerprint*) present_terminal omarchy-setup-fingerprint ;;
@@ -180,6 +180,14 @@ show_setup_config_menu() {
   *Waybar*) edit_in_nvim ~/.config/waybar/config.jsonc && omarchy-restart-waybar ;;
   *XCompose*) edit_in_nvim ~/.XCompose && omarchy-restart-xcompose ;;
   *) show_main_menu ;;
+  esac
+}
+
+show_setup_input_menu() {
+  case $(menu "Input Setup" "󱍽  Disable Trackpad While Typing\n  Configure Input Options") in
+  *Disable*) present_terminal omarchy-dwt-macbook-setup-tui ;;
+  *Configure*) edit_in_nvim ~/.config/hypr/input.conf ;;
+  *) show_setup_menu ;;
   esac
 }
 

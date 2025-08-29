@@ -1,0 +1,195 @@
+#!/usr/bin/env bash
+# Setup passwordless sudo for trackpad disable-while-typing script
+
+set -euo pipefail
+
+# Define logging functions
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+info() { echo -e "\033[34m[INFO]\033[0m $*"; }
+success() { echo -e "\033[32m[SUCCESS]\033[0m $*"; }
+warn() { echo -e "\033[33m[WARN]\033[0m $*"; }
+error() { echo -e "\033[31m[ERROR]\033[0m $*"; }
+
+# Script to enable passwordless sudo for
+REAL_USER="${SUDO_USER:-$USER}"
+REAL_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
+DWT_SCRIPT="$REAL_HOME/.local/share/omarchy/bin/omarchy-dwt-macbook-trackpad"
+SUDOERS_FILE="/etc/sudoers.d/omarchy-trackpad-dwt"
+
+main() {
+  info "Setting up passwordless sudo for trackpad disable-while-typing..."
+
+  # Check if script exists
+  if [ ! -f "$DWT_SCRIPT" ]; then
+    error "Script not found: $DWT_SCRIPT"
+    info "Please install Omarchy first"
+    exit 1
+  fi
+
+  # Install required dependencies
+  info "Checking and installing required dependencies..."
+
+  # Check for evtest (required for keyboard monitoring)
+  if ! command -v evtest &>/dev/null; then
+    info "Installing evtest for keyboard monitoring..."
+    if sudo pacman -S --noconfirm evtest; then
+      success "evtest installed successfully"
+    else
+      error "Failed to install evtest"
+      exit 1
+    fi
+  else
+    success "evtest is already installed"
+  fi
+
+  # Check for socat (required for Hyprland socket communication)
+  if ! command -v socat &>/dev/null; then
+    info "Installing socat for Hyprland integration..."
+    if sudo pacman -S --noconfirm socat; then
+      success "socat installed successfully"
+    else
+      error "Failed to install socat"
+      exit 1
+    fi
+  else
+    success "socat is already installed"
+  fi
+
+  # Get username
+  USERNAME="${SUDO_USER:-$USER}"
+
+  # Create sudoers rule
+  RULE="$USERNAME ALL=(ALL) NOPASSWD: $DWT_SCRIPT"
+
+  info "Creating sudoers rule for user: $USERNAME"
+  info "Rule: $RULE"
+
+  # Create temporary file with proper permissions
+  TEMP_FILE=$(mktemp)
+  echo "$RULE" >"$TEMP_FILE"
+
+  # Validate the sudoers syntax
+  if ! visudo -c -f "$TEMP_FILE" &>/dev/null; then
+    error "Invalid sudoers syntax"
+    rm -f "$TEMP_FILE"
+    exit 1
+  fi
+
+  # Install the sudoers file (requires sudo)
+  if sudo install -m 0440 "$TEMP_FILE" "$SUDOERS_FILE"; then
+    success "Passwordless sudo configured successfully"
+    info "The trackpad disable-while-typing script can now run without a password prompt"
+
+    # Test if it works
+    info "Testing passwordless sudo..."
+    if sudo -n "$DWT_SCRIPT" --help &>/dev/null; then
+      success "Test passed! Passwordless sudo is working for this script"
+    else
+      warn "Test failed - you may need to setup passwordless sudo capabilities manually"
+    fi
+  else
+    error "Failed to install sudoers rule"
+    rm -f "$TEMP_FILE"
+    exit 1
+  fi
+
+  rm -f "$TEMP_FILE"
+
+  # List available input devices to help user configure
+  info ""
+  info "Identifying input devices..."
+  info ""
+
+  KEYBOARD_DEVICE=""
+  TRACKPAD_DEVICE=""
+
+  # Find keyboard devices
+  info "Keyboard devices found:"
+  for input_dev in /sys/class/input/input*; do
+    if [ -r "$input_dev/name" ]; then
+      device_name=$(cat "$input_dev/name")
+      if echo "$device_name" | grep -qi "keyboard\|keyd" && \
+         ! echo "$device_name" | grep -qi "mouse\|touchpad\|trackpad"; then
+        for event_dev in "$input_dev"/event*; do
+          if [ -e "$event_dev" ]; then
+            event_path="/dev/input/$(basename "$event_dev")"
+            echo "  - $event_path: $device_name"
+            [ -z "$KEYBOARD_DEVICE" ] && KEYBOARD_DEVICE="$event_path"
+            break
+          fi
+        done
+      fi
+    fi
+  done
+
+  # Find trackpad devices
+  info ""
+  info "Trackpad devices found:"
+  for input_dev in /sys/class/input/input*; do
+    if [ -r "$input_dev/name" ]; then
+      device_name=$(cat "$input_dev/name")
+      if echo "$device_name" | grep -qi "trackpad\|touchpad"; then
+        for event_dev in "$input_dev"/event*; do
+          if [ -e "$event_dev" ]; then
+            event_path="/dev/input/$(basename "$event_dev")"
+            echo "  - $event_path: $device_name"
+            [ -z "$TRACKPAD_DEVICE" ] && TRACKPAD_DEVICE="$event_path"
+            break
+          fi
+        done
+      fi
+    fi
+  done
+
+  info ""
+  info "Next steps:"
+  info "1. Add these lines to ~/.config/hypr/input.conf (uncomment and adjust devices if needed):"
+  info ""
+  if [ -n "$KEYBOARD_DEVICE" ] && [ -n "$TRACKPAD_DEVICE" ]; then
+    info "   env = OMARCHY_TRACKPAD_DWT_KEYBOARD,$KEYBOARD_DEVICE"
+    info "   env = OMARCHY_TRACKPAD_DWT_TRACKPAD,$TRACKPAD_DEVICE"
+    info "   env = OMARCHY_TRACKPAD_DWT_TIMEOUT,1.5"
+  else
+    warn "   Could not auto-detect all devices. Use 'evtest' to identify them manually:"
+    info "   env = OMARCHY_TRACKPAD_DWT_KEYBOARD,/dev/input/eventX  # Replace X with your keyboard"
+    info "   env = OMARCHY_TRACKPAD_DWT_TRACKPAD,/dev/input/eventY  # Replace Y with your trackpad"
+    info "   env = OMARCHY_TRACKPAD_DWT_TIMEOUT,1.5"
+  fi
+  info ""
+  info "2. Restart Hyprland (Super+Esc, then Relaunch)"
+  info ""
+  info "The script will start automatically on next login if both devices are configured"
+  info ""
+  info "To remove passwordless sudo for this script later, run:"
+  info "  sudo rm /etc/sudoers.d/omarchy-trackpad-dwt"
+}
+
+# Show usage
+if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ]; then
+  cat <<EOF
+Usage: $(basename "$0")
+
+Configure passwordless sudo for the trackpad disable-while-typing script.
+This allows the script to run at startup without prompting for a password.
+
+For an interactive setup with device selection, use:
+    omarchy-dwt-macbook-setup-tui
+
+The script creates a sudoers rule in: $SUDOERS_FILE
+
+To remove passwordless sudo later:
+    sudo rm $SUDOERS_FILE
+
+Note: This script requires sudo access to configure.
+EOF
+  exit 0
+fi
+
+# Check if we need sudo and re-run with it if necessary
+if [ "$EUID" -ne 0 ]; then
+  info "This script requires sudo access to configure passwordless sudo and install packages"
+  info "Re-running with sudo..."
+  exec sudo "$0" "$@"
+fi
+
+main "$@"
