@@ -19,7 +19,7 @@ else
   PKG_MANAGER="sudo pacman"
 fi
 
-$PKG_MANAGER -S --noconfirm --needed \
+$PKG_MANAGER -Syy --noconfirm --needed \
   pipewire-jack \
   alacritty \
   avahi \
@@ -128,7 +128,7 @@ $PKG_MANAGER -S --noconfirm --needed \
   xmlstarlet \
   xournalpp \
   zoxide \
-  python-terminaltexteffects-git
+  python-terminaltexteffects
 
 if [ -z "$OMARCHY_ARM" ]; then
   $PKG_MANAGER -S --noconfirm --needed \
