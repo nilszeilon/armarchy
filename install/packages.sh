@@ -151,7 +151,17 @@ if [ -z "$OMARCHY_ARM" ]; then
 fi
 
 if [ -n "$OMARCHY_ARM" ]; then
+  if grep -qi "asahi" /etc/os-release 2>/dev/null ||
+    uname -r | grep -qi "asahi" ||
+    pacman -Q linux-asahi &>/dev/null ||
+    pacman -Q asahi-scripts &>/dev/null; then
+
+    echo "Detected Asahi Linux - Installing widevine..."
+
+    $PKG_MANAGER -S --noconfirm --needed \
+      asahi-alarm/widevine \
+  fi
+
   $PKG_MANAGER -S --noconfirm --needed \
-    asahi-alarm/widevine \
     obsidian-appimage
 fi
